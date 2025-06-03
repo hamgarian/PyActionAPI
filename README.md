@@ -62,7 +62,6 @@ This project demonstrates a modern, serverless architecture where a Python backe
 - The static frontend lets users interact with the system by requesting URLs via the Cloudflare Worker.
 - The Worker returns the backend data fetched through Firestore, enabling dynamic functionality without server code on the frontend.
 
----
 
 ## Benefits
 
@@ -71,7 +70,6 @@ This project demonstrates a modern, serverless architecture where a Python backe
 - **No traditional servers needed:** Backend runs on free GitHub Actions CI infrastructure.
 - **Fully automated:** Deployment and backend execution are managed via GitHub Actions workflows.
 
----
 
 ## Usage
 
@@ -87,8 +85,6 @@ This project demonstrates a modern, serverless architecture where a Python backe
 4. **Host frontend on GitHub Pages**  
    Publish the static site that interacts with the Cloudflare Worker.
 
----
-
 ## Notes
 
 - GitHub Actions runtime limit of 6 hours requires backend URL rotation.
@@ -96,7 +92,6 @@ This project demonstrates a modern, serverless architecture where a Python backe
 - Cloudflare Worker protects Firestore API keys from exposure in frontend code.
 - Monitor GitHub Actions usage to avoid hitting limits.
 
----
 
 ## License
 
