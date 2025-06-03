@@ -3,7 +3,7 @@ name: FastAPI with cloudflared
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   run-fastapi-cloudflared:
