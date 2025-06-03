@@ -16,6 +16,8 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
+        with:
+          persist-credentials: true  # needed to push changes
 
       - name: Set up Python 3.11
         uses: actions/setup-python@v4
@@ -57,9 +59,7 @@ jobs:
         run: |
           README=README.md
           LINK="Current Link : ${{ steps.start_services.outputs.url }}"
-          # If README.md exists, update or add the line; else create it
           if [ -f "$README" ]; then
-            # Use sed to replace line starting with 'Current Link :' or append if not found
             if grep -q '^Current Link :' "$README"; then
               sed -i "s|^Current Link :.*|$LINK|" "$README"
             else
@@ -68,15 +68,16 @@ jobs:
           else
             echo -e "# Project\n\n$LINK" > "$README"
           fi
-          # Show updated README snippet for verification
           echo "=== README.md snippet ==="
           grep -A 3 'Current Link :' "$README" || cat "$README"
 
       - name: Commit and push README update
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: "Update README with current Cloudflared tunnel link"
-          file_pattern: README.md
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add README.md
+          git diff --cached --quiet || git commit -m "Update README with current Cloudflared tunnel link [skip ci]"
+          git push
 
       - name: Output tunnel URL
         run: echo "Tunnel is running at ${{ steps.start_services.outputs.url }}"
