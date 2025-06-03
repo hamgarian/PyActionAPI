@@ -49,7 +49,7 @@ This project demonstrates a modern, serverless architecture where a Python backe
 
 ### 3. Cloudflare Worker: Secure Proxy and API Key Protection
 
-- The frontend is a **pure static HTML site** hosted on GitHub Pages.
+- The frontend is a **pure static HTML site** hosted on **GitHub Pages**.
 - Since Firestore requires authentication via API keys, exposing these keys directly in frontend code would be insecure.
 - The Cloudflare Worker acts as a **secure proxy** that:
   - Validates incoming requests to allow only trusted origins (e.g., your GitHub Pages site).
