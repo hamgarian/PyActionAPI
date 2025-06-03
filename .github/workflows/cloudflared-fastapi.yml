@@ -58,48 +58,18 @@ jobs:
       - name: Update README.md with current tunnel link
         run: |
           README=README.md
-          LINK="**Current Link:** [${{ steps.start_services.outputs.url }}](${{ steps.start_services.outputs.url }})"
-          HEADER="# free python backend that runs forever yippee"
-          CONTENT="
-# free python backend that runs forever yippee
-
-## Project Overview
-
-This repository hosts a **FastAPI** backend that runs continuously using a **Cloudflared tunnel** for external access.
-
----
-
-### Current Tunnel Link
-
-$LINK
-
----
-
-### Setup & Deployment
-
-- Uses Python 3.11
-- Dependencies: FastAPI, Uvicorn, Firebase Admin, python-dotenv
-- Cloudflared tunnel exposes the FastAPI server to the internet
-
----
-
-*This README is automatically updated by the GitHub Actions workflow.*"
-
-          if [ ! -f "$README" ]; then
-            echo "$CONTENT" > "$README"
-          else
-            # Replace header if it exists, else add header
-            if grep -q "^# free python backend that runs forever yippee" "$README"; then
-              # Replace everything from header down with new content
-              sed -i "/^# free python backend that runs forever yippee/,\$d" "$README"
-              echo "$CONTENT" >> "$README"
+          LINK="## Current Link 🌐\nCurrent Link : ${{ steps.start_services.outputs.url }}"
+          if [ -f "$README" ]; then
+            if grep -q '^## Current Link ' "$README"; then
+              sed -i "s|^## Current Link .*|${LINK//&/\\&}|" "$README"
             else
-              echo -e "\n$CONTENT" >> "$README"
+              echo -e "\n$LINK" >> "$README"
             fi
+          else
+            echo -e "# free python backend that runs forever yippee 🎉\n\nWelcome to this free Python backend powered by FastAPI and Firebase, designed to run indefinitely using Cloudflared for public access! 🚀\n\n## Current Link 🌐\n$LINK\n" > "$README"
           fi
-
           echo "=== README.md snippet ==="
-          head -40 "$README"
+          grep -A 3 '^## Current Link ' "$README" || cat "$README"
 
       - name: Commit and push README update
         run: |
