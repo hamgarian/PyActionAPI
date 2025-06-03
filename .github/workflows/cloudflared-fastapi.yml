@@ -53,6 +53,31 @@ jobs:
           echo "Tunnel URL is $URL"
           echo "url=$URL" >> $GITHUB_OUTPUT
 
+      - name: Update README.md with current tunnel link
+        run: |
+          README=README.md
+          LINK="Current Link : ${{ steps.start_services.outputs.url }}"
+          # If README.md exists, update or add the line; else create it
+          if [ -f "$README" ]; then
+            # Use sed to replace line starting with 'Current Link :' or append if not found
+            if grep -q '^Current Link :' "$README"; then
+              sed -i "s|^Current Link :.*|$LINK|" "$README"
+            else
+              echo -e "\n$LINK" >> "$README"
+            fi
+          else
+            echo -e "# Project\n\n$LINK" > "$README"
+          fi
+          # Show updated README snippet for verification
+          echo "=== README.md snippet ==="
+          grep -A 3 'Current Link :' "$README" || cat "$README"
+
+      - name: Commit and push README update
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "Update README with current Cloudflared tunnel link"
+          file_pattern: README.md
+
       - name: Output tunnel URL
         run: echo "Tunnel is running at ${{ steps.start_services.outputs.url }}"
 
