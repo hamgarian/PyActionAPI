@@ -55,21 +55,97 @@ jobs:
           echo "Tunnel URL is $URL"
           echo "url=$URL" >> $GITHUB_OUTPUT
 
-      - name: Update README.md with current tunnel link
+      - name: Update README.md with full content
         run: |
           README=README.md
-          LINK="## Current Link 🌐\nCurrent Link : ${{ steps.start_services.outputs.url }}"
-          if [ -f "$README" ]; then
-            if grep -q '^## Current Link ' "$README"; then
-              sed -i "s|^## Current Link .*|${LINK//&/\\&}|" "$README"
-            else
-              echo -e "\n$LINK" >> "$README"
-            fi
-          else
-            echo -e "# free python backend that runs forever yippee 🎉\n\nWelcome to this free Python backend powered by FastAPI and Firebase, designed to run indefinitely using Cloudflared for public access! 🚀\n\n## Current Link 🌐\n$LINK\n" > "$README"
-          fi
+          TUNNEL_URL="${{ steps.start_services.outputs.url }}"
+          cat << 'EOF' > "$README"
+# free python backend that runs forever yippee 🎉
+
+Welcome to this free Python backend powered by FastAPI and Firebase, designed to run indefinitely using Cloudflared for public access! 🚀 This project showcases a simple yet powerful setup for hosting a backend service with automatic deployment via GitHub Actions.
+
+## Current Link 🌐
+Current Link : $TUNNEL_URL
+
+## Overview 🌟
+
+This backend leverages:
+- **FastAPI** for building the API.
+- **Firebase** (Firestore) for data storage.
+- **Cloudflared** to expose the local server to the internet.
+- **GitHub Actions** for continuous deployment and hosting.
+
+The service runs forever on push to the `master` branch, with previous runs canceled to ensure only the latest instance is active.
+
+## Prerequisites 🛠️
+
+- Python 3.11
+- GitHub account with repository access
+- Firebase project with Firestore enabled
+- Cloudflared installed (handled automatically in the workflow)
+
+## Setup Instructions 📋
+
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/<your-username>/<your-repo>.git
+   cd <your-repo>
+   ```
+
+2. **Install Dependencies**
+   ```bash
+   python -m pip install --upgrade pip
+   pip install fastapi uvicorn firebase-admin python-dotenv
+   ```
+
+3. **Configure Firebase**
+   - Create a Firebase project at [Firebase Console](https://console.firebase.google.com/).
+   - Enable Firestore and generate a service account key:
+     - Go to **Project Settings** > **Service Accounts** > **Generate New Private Key**.
+     - Save the JSON file as `serviceAccountKey.json` in the project root.
+   - Base64-encode the key for GitHub Secrets:
+     ```powershell
+     [Convert]::ToBase64String([IO.File]::ReadAllBytes("serviceAccountKey.json"))
+     ```
+
+4. **Set Up GitHub Secrets**
+   - In your GitHub repository, go to **Settings** > **Secrets and variables** > **Actions**.
+   - Add the following secrets:
+     - `FIREBASE_SERVICE_ACCOUNT_KEY`: The base64-encoded `serviceAccountKey.json`.
+
+5. **Create `.env` (Local Only)**
+   - Create a `.env` file in the project root:
+     ```env
+     GOOGLE_APPLICATION_CREDENTIALS=serviceAccountKey.json
+     ```
+   - Add `.env` to `.gitignore`.
+
+## Usage 🚀
+
+- **Local Development**
+  - Run the backend:
+    ```bash
+    uvicorn main:app --host 127.0.0.1 --port 8000
+    ```
+  - Access it at `http://127.0.0.1:8000`.
+
+- **GitHub Actions Deployment**
+  - Push changes to the `master` branch.
+  - The workflow will start the backend and expose it via Cloudflared.
+
+
+## Contributing 🤝
+
+Feel free to fork this repository, submit issues, or send pull requests! Let’s make this backend even better together.
+
+## License 📜
+
+This project is open-source under the MIT License. See the [LICENSE](LICENSE) file for details.
+EOF
+          # Replace the placeholder with the actual URL
+          sed -i "s|\$TUNNEL_URL|$TUNNEL_URL|" "$README"
           echo "=== README.md snippet ==="
-          grep -A 3 '^## Current Link ' "$README" || cat "$README"
+          cat "$README"
 
       - name: Commit and push README update
         run: |
