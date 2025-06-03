@@ -1,11 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fetch from Cloudflare Worker API</title>
 </head>
 <body>
-    <h1>Test</h1>
+  <h1>Fetch Tunnel URL from Worker API</h1>
+
+  <button id="fetchBtn">Get Tunnel URL</button>
+  <pre id="result"></pre>
+
+  <script>
+    const ALLOWED_ORIGIN = "https://hamgarian.github.io"; // your allowed origin in worker
+
+    document.getElementById("fetchBtn").addEventListener("click", async () => {
+      try {
+        const response = await fetch("https://snowy-resonance-7fc8.ilhamgoesasi5.workers.dev/", {
+          method: "GET",
+          headers: {
+            // Optionally add any headers here
+          },
+          // mode: "cors" is default on modern browsers for cross-origin fetch
+          mode: "cors"
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        document.getElementById("result").textContent = JSON.stringify(data, null, 2);
+      } catch (error) {
+        document.getElementById("result").textContent = `Error: ${error.message}`;
+      }
+    });
+  </script>
 </body>
 </html>
