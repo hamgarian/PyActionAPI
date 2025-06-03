@@ -10,6 +10,7 @@
 
   <button id="fetchBtn">Get Tunnel URL</button>
   <pre id="result"></pre>
+  <div id="dynamicButtonContainer"></div>
 
   <script>
     const ALLOWED_ORIGIN = "https://hamgarian.github.io"; // your allowed origin in worker
@@ -21,7 +22,6 @@
           headers: {
             // Optionally add any headers here
           },
-          // mode: "cors" is default on modern browsers for cross-origin fetch
           mode: "cors"
         });
 
@@ -31,6 +31,32 @@
 
         const data = await response.json();
         document.getElementById("result").textContent = JSON.stringify(data, null, 2);
+
+        // Remove previous dynamic button if exists
+        const container = document.getElementById("dynamicButtonContainer");
+        container.innerHTML = "";
+
+        // Assuming the URL you want to fetch next is in data.url (adjust accordingly)
+        if (data.url) {
+          const newButton = document.createElement("button");
+          newButton.textContent = "Fetch from URL";
+          newButton.addEventListener("click", async () => {
+            try {
+              const secondResponse = await fetch(data.url, {
+                method: "GET",
+                mode: "cors"
+              });
+              if (!secondResponse.ok) {
+                throw new Error(`HTTP error! status: ${secondResponse.status}`);
+              }
+              const secondData = await secondResponse.json();
+              document.getElementById("result").textContent = JSON.stringify(secondData, null, 2);
+            } catch (error) {
+              document.getElementById("result").textContent = `Error: ${error.message}`;
+            }
+          });
+          container.appendChild(newButton);
+        }
       } catch (error) {
         document.getElementById("result").textContent = `Error: ${error.message}`;
       }
