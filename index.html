@@ -36,21 +36,21 @@
         const container = document.getElementById("dynamicButtonContainer");
         container.innerHTML = "";
 
-        // Assuming the URL you want to fetch next is in data.url (adjust accordingly)
-        if (data.url) {
+        // Check for tunnel_url in response JSON
+        if (data.tunnel_url) {
           const newButton = document.createElement("button");
-          newButton.textContent = "Fetch from URL";
+          newButton.textContent = "Fetch from Tunnel URL";
           newButton.addEventListener("click", async () => {
             try {
-              const secondResponse = await fetch(data.url, {
+              const tunnelResponse = await fetch(data.tunnel_url, {
                 method: "GET",
                 mode: "cors"
               });
-              if (!secondResponse.ok) {
-                throw new Error(`HTTP error! status: ${secondResponse.status}`);
+              if (!tunnelResponse.ok) {
+                throw new Error(`HTTP error! status: ${tunnelResponse.status}`);
               }
-              const secondData = await secondResponse.json();
-              document.getElementById("result").textContent = JSON.stringify(secondData, null, 2);
+              const tunnelData = await tunnelResponse.json();
+              document.getElementById("result").textContent = JSON.stringify(tunnelData, null, 2);
             } catch (error) {
               document.getElementById("result").textContent = `Error: ${error.message}`;
             }
