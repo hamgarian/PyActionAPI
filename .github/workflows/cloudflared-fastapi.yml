@@ -56,5 +56,11 @@ jobs:
       - name: Output tunnel URL
         run: echo "Tunnel is running at ${{ steps.start_services.outputs.url }}"
 
-      - name: Keep workflow alive
-        run: tail -f /dev/null
+      - name: Keep workflow alive with cancellation support
+        run: |
+          echo "Keeping workflow alive. Press Ctrl+C to stop."
+          trap "echo 'Termination signal received. Exiting...'; exit 0" SIGINT SIGTERM
+          while true; do
+            sleep 10
+          done
+        shell: bash
