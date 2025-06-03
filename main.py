@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 
 origins = [
-    "https://hamgarian.github.io/PyActionAPI",
+    "https://hamgarian.github.io",
 ]
 
 # Add CORS middleware to the app
