@@ -29,34 +29,20 @@ jobs:
           chmod +x cloudflared-linux-amd64
           sudo mv cloudflared-linux-amd64 /usr/local/bin/cloudflared
 
-      - name: Run FastAPI in background
+      - name: Start FastAPI and cloudflared tunnel
+        id: start_services
         run: |
-          nohup uvicorn app:app --host 0.0.0.0 --port 8000 &
-
-      - name: Run cloudflared ephemeral tunnel and capture URL
-        id: tunnel
-        run: |
-          # Run cloudflared tunnel exposing local port 8000, output logs to file
+          # Start FastAPI and cloudflared in background with log files
+          nohup uvicorn app:app --host 0.0.0.0 --port 8000 > uvicorn.log 2>&1 &
           nohup cloudflared tunnel --url http://localhost:8000 > cloudflared.log 2>&1 &
-          # Wait a few seconds for cloudflared to start and get public URL
           sleep 10
-          # Extract the URL from logs
-          URL=$(grep -o 'https://[-a-z0-9]*\.trycloudflare.com' cloudflared.log | head -1)
-          echo "Tunnel URL is $URL"
-          echo "::set-output name=url::$URL"
-
-      - name: Run cloudflared ephemeral tunnel and capture URL
-        id: tunnel
-        run: |
-          # Run cloudflared tunnel exposing local port 8000, output logs to file
-          nohup cloudflared tunnel --url http://localhost:8000 > cloudflared.log 2>&1 &
-          # Wait a few seconds for cloudflared to start and get public URL
-          sleep 10
-          # Extract the URL from logs
+          # Extract tunnel URL from cloudflared logs
           URL=$(grep -o 'https://[-a-z0-9]*\.trycloudflare.com' cloudflared.log | head -1)
           echo "Tunnel URL is $URL"
           echo "url=$URL" >> $GITHUB_OUTPUT
-      
 
-      - name: Keep workflow alive (optional)
+      - name: Output tunnel URL
+        run: echo "Tunnel is running at ${{ steps.start_services.outputs.url }}"
+
+      - name: Keep workflow alive
         run: tail -f /dev/null
