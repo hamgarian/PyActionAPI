@@ -45,8 +45,18 @@ jobs:
           echo "Tunnel URL is $URL"
           echo "::set-output name=url::$URL"
 
-      - name: Show tunnel URL
-        run: echo "Public tunnel URL: ${{ steps.tunnel.outputs.url }}"
+      - name: Run cloudflared ephemeral tunnel and capture URL
+        id: tunnel
+        run: |
+          # Run cloudflared tunnel exposing local port 8000, output logs to file
+          nohup cloudflared tunnel --url http://localhost:8000 > cloudflared.log 2>&1 &
+          # Wait a few seconds for cloudflared to start and get public URL
+          sleep 10
+          # Extract the URL from logs
+          URL=$(grep -o 'https://[-a-z0-9]*\.trycloudflare.com' cloudflared.log | head -1)
+          echo "Tunnel URL is $URL"
+          echo "url=$URL" >> $GITHUB_OUTPUT
+      
 
       - name: Keep workflow alive (optional)
         run: tail -f /dev/null
