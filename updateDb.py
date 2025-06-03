@@ -28,7 +28,7 @@ def update_firestore():
     # Update a specific user document
     user_ref = db.collection('users').document('user123')
     user_ref.set({
-        'name': 'John Doe',
+        'name': 'Joe Abdul',
         'age': 30,
         'comment': 'Additional text input'
     }, merge=True)
