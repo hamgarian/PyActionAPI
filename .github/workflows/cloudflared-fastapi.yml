@@ -1,0 +1,52 @@
+name: FastAPI with cloudflared
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  run-fastapi-cloudflared:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install fastapi uvicorn
+
+      - name: Download cloudflared
+        run: |
+          wget https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64
+          chmod +x cloudflared-linux-amd64
+          sudo mv cloudflared-linux-amd64 /usr/local/bin/cloudflared
+
+      - name: Run FastAPI in background
+        run: |
+          nohup uvicorn app:app --host 0.0.0.0 --port 8000 &
+
+      - name: Run cloudflared ephemeral tunnel and capture URL
+        id: tunnel
+        run: |
+          # Run cloudflared tunnel exposing local port 8000, output logs to file
+          nohup cloudflared tunnel --url http://localhost:8000 > cloudflared.log 2>&1 &
+          # Wait a few seconds for cloudflared to start and get public URL
+          sleep 10
+          # Extract the URL from logs
+          URL=$(grep -o 'https://[-a-z0-9]*\.trycloudflare.com' cloudflared.log | head -1)
+          echo "Tunnel URL is $URL"
+          echo "::set-output name=url::$URL"
+
+      - name: Show tunnel URL
+        run: echo "Public tunnel URL: ${{ steps.tunnel.outputs.url }}"
+
+      - name: Keep workflow alive (optional)
+        run: tail -f /dev/null
