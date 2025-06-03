@@ -1,8 +1,8 @@
 from fastapi import FastAPI
-from updateDb import update_db
+from updateDb import update_firestore
 
 app = FastAPI()
-update_db()
+update_firestore()
 
 @app.get("/")
 def read_root():

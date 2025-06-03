@@ -5,6 +5,10 @@ on:
     branches:
       - master
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   run-fastapi-cloudflared:
     runs-on: ubuntu-latest
@@ -43,7 +47,7 @@ jobs:
           FIREBASE_DATABASE_URL: ${{ secrets.FIREBASE_DATABASE_URL }}
         run: |
           # Start FastAPI and cloudflared in background with log files
-          nohup uvicorn app:app --host 0.0.0.0 --port 8000 > uvicorn.log 2>&1 &
+          nohup uvicorn main:app --host 0.0.0.0 --port 8000 > uvicorn.log 2>&1 &
           nohup cloudflared tunnel --url http://localhost:8000 > cloudflared.log 2>&1 &
           sleep 10
           # Extract tunnel URL from cloudflared logs

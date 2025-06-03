@@ -1,36 +1,38 @@
 import firebase_admin
-from firebase_admin import credentials
-from firebase_admin import db
+from firebase_admin import credentials, firestore
 from dotenv import load_dotenv
 import os
 
-def update_db():
+def update_firestore():
     # Load environment variables from .env file
     load_dotenv()
 
-    # Initialize the app with the service account key
+    # Initialize Firebase Admin with Firestore
     cred = credentials.Certificate('serviceAccountKey.json')
-    firebase_admin.initialize_app(cred, {
-        'databaseURL': os.getenv('FIREBASE_DATABASE_URL')
-    })
+    firebase_admin.initialize_app(cred)
 
-    # Reference to the 'test' node in the database
-    ref = db.reference('test')
+    # Create Firestore client
+    db = firestore.client()
 
-    # Add a text input (e.g., a string field) to the 'test' node
-    ref.update({
+    # Add a simple document to a 'test' collection
+    test_ref = db.collection('test').document('main')
+    test_ref.set({
         'text_input': 'This is a sample text'  # Replace with your desired text
     })
 
-    # Example: Update or add nested fields if needed
-    ref.child('subnode').update({
-        'nested_text': 'Nested text example'
+    # Add or update nested fields in a subcollection or as nested fields
+    test_ref.update({
+        'subnode.nested_text': 'Nested text example'
     })
 
-    # Example: Update a specific user node (if it exists or needs to be created)
-    user_ref = db.reference('users/user123')
-    user_ref.update({
+    # Update a specific user document
+    user_ref = db.collection('users').document('user123')
+    user_ref.set({
         'name': 'John Doe',
         'age': 30,
-        'comment': 'Additional text input'  # Another text field
-    })
+        'comment': 'Additional text input'
+    }, merge=True)
+
+if __name__ == "__main__":
+    update_firestore()
+    print("Firestore updated successfully.")
