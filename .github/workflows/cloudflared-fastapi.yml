@@ -63,6 +63,16 @@ jobs:
           echo "Tunnel URL is $URL"
           echo "url=$URL" >> $GITHUB_OUTPUT
 
+      - name: Export tunnel URL environment variable
+        run: echo "CLOUDFLARED_TUNNEL_URL=${{ steps.start_services.outputs.url }}" >> $GITHUB_ENV
+
+      - name: Run Firestore update script with tunnel URL
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: ./serviceAccountKey.json
+          CLOUDFLARED_TUNNEL_URL: ${{ env.CLOUDFLARED_TUNNEL_URL }}
+        run: python updateDb.py
+
+
       # Step 7: Update README.md file with the current Cloudflared tunnel link
       - name: Update README.md with current tunnel link
         run: |

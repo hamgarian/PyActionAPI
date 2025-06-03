@@ -3,36 +3,28 @@ from firebase_admin import credentials, firestore
 from dotenv import load_dotenv
 import os
 
-def update_firestore():
+def update_firestore(tunnel_url: str):
     # Load environment variables from .env file
     load_dotenv()
 
     # Initialize Firebase Admin with Firestore
     cred = credentials.Certificate('serviceAccountKey.json')
-    firebase_admin.initialize_app(cred)
+    # Initialize app only once to avoid errors if called multiple times
+    if not firebase_admin._apps:
+        firebase_admin.initialize_app(cred)
 
     # Create Firestore client
     db = firestore.client()
 
-    # Add a simple document to a 'test' collection
-    test_ref = db.collection('test').document('main')
-    test_ref.set({
-        'text_input': 'This is a sample text'  # Replace with your desired text
-    })
 
-    # Add or update nested fields in a subcollection or as nested fields
-    test_ref.update({
-        'subnode.nested_text': 'Nested text example'
-    })
-
-    # Update a specific user document
-    user_ref = db.collection('users').document('user123')
-    user_ref.set({
-        'name': 'Joe Abdul',
-        'age': 30,
-        'comment': 'Additional text input'
+    # Store the cloudflared tunnel URL in Firestore
+    url_ref = db.collection('config').document('cloudflared')
+    url_ref.set({
+        'tunnel_url': tunnel_url
     }, merge=True)
 
 if __name__ == "__main__":
-    update_firestore()
-    print("Firestore updated successfully.")
+    # Example usage: pass the tunnel URL as an environment variable or hardcoded for testing
+    tunnel_url = os.getenv('CLOUDFLARED_TUNNEL_URL', 'https://example.trycloudflare.com')
+    update_firestore(tunnel_url)
+    print("Firestore updated successfully with tunnel URL:", tunnel_url)

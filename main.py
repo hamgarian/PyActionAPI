@@ -6,7 +6,7 @@ app = FastAPI()
 
 @app.on_event("startup")
 def on_startup():
-    update_firestore()
+    print("running on startup")
 
 @app.get("/")
 def read_root():
