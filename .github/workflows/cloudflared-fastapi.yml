@@ -2,6 +2,7 @@ name: FastAPI with cloudflared
 
 # Trigger this workflow when there's a push to the master branch
 on:
+  workflow_dispatch:
   push:
     branches:
       - master
