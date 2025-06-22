@@ -1,6 +1,6 @@
 # free python backend that runs forever yippee 🎉
 
-Current Link : https://dosage-alone-lonely-pork.trycloudflare.com
+Current Link : https://shorter-alike-um-pasta.trycloudflare.com
 
 Frontend : https://hamgarian.github.io/PyActionAPI/
 
