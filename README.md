@@ -1,6 +1,6 @@
 # free python backend that runs forever yippee 🎉
 
-Current Link : https://josh-considering-studios-bags.trycloudflare.com
+Current Link : https://bali-kazakhstan-median-diagnostic.trycloudflare.com
 
 Frontend : https://hamgarian.github.io/PyActionAPI/
 
