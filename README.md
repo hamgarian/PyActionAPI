@@ -1,6 +1,6 @@
 # free python backend that runs forever yippee 🎉
 
-Current Link : https://ghost-wait-adjust-uni.trycloudflare.com
+Current Link : https://reliance-regard-regional-blank.trycloudflare.com
 
 Frontend : https://hamgarian.github.io/PyActionAPI/
 
