@@ -1,6 +1,6 @@
 # free python backend that runs forever yippee 🎉
 
-Current Link : https://encyclopedia-brazil-somalia-plymouth.trycloudflare.com
+Current Link : https://exemption-bk-xi-lamb.trycloudflare.com
 
 Frontend : https://hamgarian.github.io/PyActionAPI/
 
