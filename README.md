@@ -1,6 +1,6 @@
 # free python backend that runs forever yippee 🎉
 
-Current Link : https://exemption-bk-xi-lamb.trycloudflare.com
+Current Link : https://edmonton-relates-tire-duncan.trycloudflare.com
 
 Frontend : https://hamgarian.github.io/PyActionAPI/
 
