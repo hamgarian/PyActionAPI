@@ -1,6 +1,6 @@
 # free python backend that runs forever yippee 🎉
 
-Current Link : https://discussions-cube-rush-rescue.trycloudflare.com
+Current Link : https://lamb-democracy-starsmerchant-sink.trycloudflare.com
 
 Frontend : https://hamgarian.github.io/PyActionAPI/
 
