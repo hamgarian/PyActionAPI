@@ -1,6 +1,6 @@
 # free python backend that runs forever yippee 🎉
 
-Current Link : https://exceptions-the-mg-publisher.trycloudflare.com
+Current Link : https://prizes-collins-insertion-unsigned.trycloudflare.com
 
 Frontend : https://hamgarian.github.io/PyActionAPI/
 
