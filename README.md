@@ -1,6 +1,6 @@
 # free python backend that runs forever yippee 🎉
 
-Current Link : https://euros-acceptance-urban-du.trycloudflare.com
+Current Link : https://geographic-brighton-transparent-tiny.trycloudflare.com
 
 Frontend : https://hamgarian.github.io/PyActionAPI/
 
