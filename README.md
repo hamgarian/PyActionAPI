@@ -1,6 +1,6 @@
 # free python backend that runs forever yippee 🎉
 
-Current Link : https://vintage-infections-firmware-tucson.trycloudflare.com
+Current Link : https://alan-awarded-server-collective.trycloudflare.com
 
 Frontend : https://hamgarian.github.io/PyActionAPI/
 
