@@ -1,6 +1,6 @@
 # free python backend that runs forever yippee 🎉
 
-Current Link : https://penalties-occupation-list-sonic.trycloudflare.com
+Current Link : https://bomb-discharge-genes-languages.trycloudflare.com
 
 Frontend : https://hamgarian.github.io/PyActionAPI/
 
