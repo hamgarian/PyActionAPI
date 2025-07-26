@@ -1,6 +1,6 @@
 # free python backend that runs forever yippee 🎉
 
-Current Link : https://bomb-discharge-genes-languages.trycloudflare.com
+Current Link : https://popularity-join-senate-continental.trycloudflare.com
 
 Frontend : https://hamgarian.github.io/PyActionAPI/
 
