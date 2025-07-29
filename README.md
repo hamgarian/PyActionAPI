@@ -1,6 +1,6 @@
 # free python backend that runs forever yippee 🎉
 
-Current Link : https://beijing-solve-cheats-que.trycloudflare.com
+Current Link : https://infectious-chair-brian-welcome.trycloudflare.com
 
 Frontend : https://hamgarian.github.io/PyActionAPI/
 
