@@ -1,6 +1,6 @@
 # free python backend that runs forever yippee 🎉
 
-Current Link : https://growing-ottawa-candidate-eu.trycloudflare.com
+Current Link : https://prizes-than-alert-page.trycloudflare.com
 
 Frontend : https://hamgarian.github.io/PyActionAPI/
 
