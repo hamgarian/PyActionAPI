@@ -1,6 +1,6 @@
 # free python backend that runs forever yippee 🎉
 
-Current Link : https://step-saturn-group-minimal.trycloudflare.com
+Current Link : https://newspaper-smtp-f-timothy.trycloudflare.com
 
 Frontend : https://hamgarian.github.io/PyActionAPI/
 
