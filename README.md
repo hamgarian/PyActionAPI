@@ -1,6 +1,6 @@
 # free python backend that runs forever yippee 🎉
 
-Current Link : https://gage-information-accused-extent.trycloudflare.com
+Current Link : https://imaging-authorities-targeted-safe.trycloudflare.com
 
 Frontend : https://hamgarian.github.io/PyActionAPI/
 
