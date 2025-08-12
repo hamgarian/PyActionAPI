@@ -1,6 +1,6 @@
 # free python backend that runs forever yippee 🎉
 
-Current Link : https://prix-papua-ve-thompson.trycloudflare.com
+Current Link : https://software-prepared-soa-pic.trycloudflare.com
 
 Frontend : https://hamgarian.github.io/PyActionAPI/
 
